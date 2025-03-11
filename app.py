@@ -21,8 +21,7 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
 
     # Ensure 'Date' column is in datetime format
     df['Date'] = pd.to_datetime(df['Date'])
-    df['Low'] = pd.to_numeric(df['Low'], errors='coerce')
-    df['High'] = pd.to_numeric(df['High'], errors='coerce')
+    
     ticker = df.columns[1][1]
 
     # Set start and end dates
