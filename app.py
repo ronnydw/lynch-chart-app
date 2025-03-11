@@ -21,7 +21,7 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
 
     # Ensure 'Date' column is in datetime format
     df['Date'] = pd.to_datetime(df['Date'])
-    
+
     ticker = df.columns[1][1]
 
     # Set start and end dates
@@ -78,7 +78,7 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     ax.set_ylabel("Price (Log Scale)", fontsize=10)
     
     ax.margins(x=0)
-    fig.savefig('./img/'+ ticker + '-20y-history.jpg', format='jpg')
+    # fig.savefig('./img/'+ ticker + '-20y-history.jpg', format='jpg')
 
     return fig
 
