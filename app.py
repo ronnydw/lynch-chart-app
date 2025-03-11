@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.dates as mdates
 import yfinance as yf
 import matplotlib.ticker as mticker
+from datetime import timedelta
 
 def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     """
@@ -79,7 +80,7 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     
     ax.margins(x=0)
     fig.savefig('./img/'+ ticker + '-20y-history.jpg', format='jpg')
-    
+
     return fig
 
 def get_yahoo_historical_data(ticker: str):
