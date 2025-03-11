@@ -116,7 +116,7 @@ def get_company_name(ticker: str):
     return info.get('longName')
 
 st.title("The Only Price Chart a Quality Investor Needs")
-ticker = st.text_input("Enter a stock ticker symbol:", "AAPL")
+ticker = st.text_input("Enter a yahoo stock ticker symbol:", "AAPL")
 if st.button("Generate Chart"):
     df = get_yahoo_historical_data(ticker)
     company = get_company_name(ticker)
