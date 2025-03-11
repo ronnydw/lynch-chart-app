@@ -86,16 +86,23 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
 def get_yahoo_historical_data(ticker: str):
     """
     Fetches historical monthly price data for the past 20 years from Yahoo Finance.
+
+    Parameters:
+    ticker (str): The Yahoo Finance ticker symbol.
+
+    Returns:
+    pd.DataFrame: A DataFrame containing 'Date', 'High', and 'Low' columns.
     """
-    end_date = pd.to_datetime("today").replace(month=12, day=31)
-    start_date = end_date.replace(year=end_date.year - 20, month=1, day=1)
+    end_date = pd.to_datetime("today")
+    start_date = end_date - pd.DateOffset(years=20)
+    
     data = yf.download(ticker, start=start_date, end=end_date, interval="1mo")
-    if isinstance(data.columns, pd.MultiIndex):
-        data = data.xs(ticker, level=0, axis=1)
+        
     df = data[['High', 'Low']].reset_index()
+    
     return df
 
-st.title("Peter Lynch Style Chart Viewer")
+st.title("The Only Price Chart a Quality Investor Needs")
 ticker = st.text_input("Enter a stock ticker symbol:", "AAPL")
 if st.button("Generate Chart"):
     df = get_yahoo_historical_data(ticker)
