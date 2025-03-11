@@ -101,9 +101,24 @@ def get_yahoo_historical_data(ticker: str):
     
     return df
 
+def get_company_name(ticker: str):
+    """
+    Fetches the company name from Yahoo Finance.
+
+    Parameters:
+    ticker (str): The Yahoo Finance ticker symbol.
+
+    Returns:
+    The full name of the company 
+    """    
+    stock = yf.Ticker(ticker)
+    info = stock.info
+    return info.get('longName')
+
 st.title("The Only Price Chart a Quality Investor Needs")
 ticker = st.text_input("Enter a stock ticker symbol:", "AAPL")
 if st.button("Generate Chart"):
     df = get_yahoo_historical_data(ticker)
-    fig = plot_lynch_style_chart(df, f"{ticker} 20-Year Price History")
+    company = get_company_name(ticker)
+    fig = plot_lynch_style_chart(df, company)
     st.pyplot(fig)
