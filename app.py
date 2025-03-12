@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.dates as mdates
 import yfinance as yf
 import matplotlib.ticker as mticker
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     """
@@ -20,7 +20,9 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     df = df.sort_values('Date')
 
     # Ensure 'Date' column is in datetime format
-    df['Date'] = pd.to_datetime(df['Date'])
+    df['Date'] = pd.to_datetime(df['Date']) 
+    # Shift dates by +15 days for accurate plotting of monthly bars
+    df['Date'] = df['Date'] + pd.DateOffset(days=15)
 
     ticker = df.columns[1][1]
 
@@ -78,7 +80,19 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     ax.set_ylabel("Price (Log Scale)", fontsize=10)
     
     ax.margins(x=0)
-    # fig.savefig('./img/'+ ticker + '-20y-history.jpg', format='jpg')
+
+    # Draw a blue dashed line between the mids of the first and the last bar
+    first_mid = df[['High', 'Low']].iloc[0].mean()
+    last_mid = df[['High', 'Low']].iloc[-1].mean()
+    ax.plot([df['Date'].iloc[0], df['Date'].iloc[-1]], [first_mid, last_mid], 'b--')
+
+    # Calculate CAGR
+    num_years = (df['Date'].iloc[-1] - df['Date'].iloc[0]).days / 365.25
+    cagr = (((last_mid / first_mid) ** (1 / num_years) - 1) * 100).round(1)
+
+    # Add n-bagger and CAGR label
+    nbagger = last_mid / first_mid
+    ax.text(datetime.today()-timedelta(days=3653), high_max/1.2, f'{nbagger:.0f}-bagger, CAGR {cagr}%', ha='center', va='top', fontsize=14, color='blue', backgroundcolor='white')
 
     return fig
 
