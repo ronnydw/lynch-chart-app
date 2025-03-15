@@ -15,10 +15,10 @@ def get_yahoo_historical_data(ticker: str):
     """
     try:
         end_date = pd.to_datetime("today")
-        start_date = end_date - pd.DateOffset(years=20)
-        
+        start_date = end_date - pd.DateOffset(years=20)       
         data = yf.download(ticker, start=start_date, end=end_date, interval="1mo")
         df = data[['High', 'Low']].reset_index()
+        df.columns = ['Date', 'High', 'Low']  # Rename columns to remove ticker symbol
         return df
     except Exception as e:
         st.error(f"Error fetching data for ticker {ticker}: {e}")
@@ -42,4 +42,3 @@ def get_company_name(ticker: str):
     except Exception as e:
         st.error(f"Error fetching company name for ticker {ticker}: {e}")
         return 'Unknown Company'
-        

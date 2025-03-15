@@ -17,8 +17,6 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     # Sort data by date
     df = df.sort_values('Date')
 
-    ticker = df.columns[1][1]
-
     # Ensure 'Date' column is in datetime format
     df['Date'] = pd.to_datetime(df['Date']) 
     # Shift dates by +15 days for accurate plotting of monthly bars
@@ -41,8 +39,8 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     ax.xaxis.set_minor_locator(mdates.MonthLocator(interval=3))  # Every quarter
 
     # Adjust y-axis limits based on data range
-    low_min = df['Low', ticker].min() * 0.9
-    high_max = df['High', ticker].max() * 1.1
+    low_min = df['Low'].min() * 0.9
+    high_max = df['High'].max() * 1.1
     ax.set_ylim(low_min, high_max)
     
     # Draw yearly boxes and year labels centered in each box
@@ -88,11 +86,8 @@ def plot_lynch_style_chart(df: pd.DataFrame, company: str):
     num_years = (df['Date'].iloc[-1] - df['Date'].iloc[0]).days / 365.25
     cagr = (((last_mid / first_mid) ** (1 / num_years) - 1) * 100).round(1)
 
-    # Add CAGR label
-    ax.text(df['Date'].iloc[-1], last_mid, f'CAGR {cagr}%', ha='left', va='center', fontsize=10, color='blue')
-
-    # Calculate and add n-bagger label under the chart title
+    # Add n-bagger and CAGR label
     nbagger = last_mid / first_mid
-    ax.text(df['Date'].iloc[0], high_max * 1.1, f'{nbagger:.0f}-bagger', ha='left', va='center', fontsize=14, color='blue')
+    ax.text(datetime.today()-timedelta(days=3653), high_max/1.2, f'{nbagger:.0f}-bagger, CAGR {cagr}%', ha='center', va='top', fontsize=14, color='blue', backgroundcolor='white')
 
     return fig
