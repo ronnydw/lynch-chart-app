@@ -41,3 +41,57 @@ def get_company_info(ticker: str):
     except Exception as e:
         st.error(f"Error fetching company information for ticker {ticker}: {e}")
         return {}        
+
+@st.cache_data
+def get_balance_sheet(ticker: str):
+    """
+    Fetches the balance sheet data from Yahoo Finance.
+
+    Parameters:
+    ticker (str): The Yahoo Finance ticker symbol.
+
+    Returns:
+    pd.DataFrame: A DataFrame containing balance sheet data.
+    """
+    try:
+        stock = yf.Ticker(ticker)
+        return stock.balance_sheet.T
+    except Exception as e:
+        st.error(f"Error fetching balance sheet data for ticker {ticker}: {e}")
+        return pd.DataFrame()
+
+@st.cache_data
+def get_income_statement(ticker: str):
+    """
+    Fetches the income statement data from Yahoo Finance.
+
+    Parameters:
+    ticker (str): The Yahoo Finance ticker symbol.
+
+    Returns:
+    pd.DataFrame: A DataFrame containing income statement data.
+    """
+    try:
+        stock = yf.Ticker(ticker)
+        return stock.financials.T
+    except Exception as e:
+        st.error(f"Error fetching income statement data for ticker {ticker}: {e}")
+        return pd.DataFrame()    
+
+@st.cache_data
+def get_cash_flow(ticker: str):
+    """
+    Fetches the cash flow data from Yahoo Finance.
+
+    Parameters:
+    ticker (str): The Yahoo Finance ticker symbol.
+
+    Returns:
+    pd.DataFrame: A DataFrame containing cash flow data.
+    """
+    try:
+        stock = yf.Ticker(ticker)
+        return stock.cashflow.T
+    except Exception as e:
+        st.error(f"Error fetching cash flow data for ticker {ticker}: {e}")
+        return pd.DataFrame()            
