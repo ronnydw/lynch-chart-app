@@ -25,20 +25,19 @@ def get_yahoo_historical_data(ticker: str):
         return pd.DataFrame()
 
 @st.cache_data
-def get_company_name(ticker: str):
+def get_company_info(ticker: str):
     """
-    Fetches the company name from Yahoo Finance.
+    Fetches company information from Yahoo Finance.
 
     Parameters:
     ticker (str): The Yahoo Finance ticker symbol.
 
     Returns:
-    The full name of the company 
-    """    
+    dict: A dictionary containing company information.
+    """
     try:
         stock = yf.Ticker(ticker)
-        info = stock.info
-        return info.get('longName', 'Unknown Company')
+        return stock.info
     except Exception as e:
-        st.error(f"Error fetching company name for ticker {ticker}: {e}")
-        return 'Unknown Company'
+        st.error(f"Error fetching company information for ticker {ticker}: {e}")
+        return {}        
