@@ -36,15 +36,15 @@
         "value": 3,
         "weight": 1,
         "description": "Net debt to ebitda is less than 50%",
-        "score": 1,
-        "type": ["yearly", "average"]
+        "score": 4,
+        "type": ["latest"]
     },
     "debt_equity_ratio":{
         "operator": "less_than",
         "value": 80,
         "weight": 1,
         "description": "Debt to equity is less than 80%",
-        "score": 1,
-        "type": ["yearly", "average"]
+        "score": 3,
+        "type": ["latest"]
     }
 }

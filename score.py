@@ -34,39 +34,61 @@ def calculate_metric_score(metric: str, parms: dict, data: dict):
     OPERATOR = {"greater_than": ">", "less_than": "<", "equal_to": "=="}
 
     metric_history = metrics.get_3y_metric(data, metric)
-    print(f"=== metric_history: {metric} ===\n", metric_history)
 
     if metric_history.empty:
         return {}
 
     fiscal_year_end = MONTH[metric_history.index[0].month]
     years = metric_history.index.year
+    metric_history.index = pd.to_datetime(metric_history.index).year
 
-    scores = {}
+    scores = []
+
     multiplier = parms["score"] * parms["weight"]
     for score_type in parms["type"]:
         if score_type == "yearly":
             formula = f"metric_history {OPERATOR[parms["operator"]]} {parms["value"]}"
             score_df = eval(formula).astype(int) * multiplier
-            scores[score_type] = score_df
+            for year in years:
+                scores.append({
+                    "Metric": metric,
+                    "Type": f"y_{year}",
+                    "Value": metric_history.loc[year],
+                    "Score": score_df.loc[year]
+                })
         elif score_type == "latest":
-            formula = f"metric_historty[0] {OPERATOR[parms["operator"]]} {parms["value"]}"
-            score = eval(formula).astype(int) * parms["score"] * parms["weight"]
-            scores[score_type] = score
+            formula = f"metric_history.iloc[0] {OPERATOR[parms["operator"]]} {parms["value"]}"
+            score = int(eval(formula)) * parms["score"] * parms["weight"]
+            scores.append({
+                "Metric": metric,
+                "Type": f"y_{years[0]}",
+                "Value": metric_history.iloc[0],
+                "Score": score
+            })
         elif score_type == "average":
             formula = f"metric_history.mean() {OPERATOR[parms["operator"]]} {parms["value"]}"
-            score = eval(formula).astype(int) * parms["score"]*parms["weight"]
-            scores[score_type] = score               
+            score = int(eval(formula)) * parms["score"] * parms["weight"]
+            scores.append({
+                "Metric": metric,
+                "Type": score_type,
+                "Value": metric_history.mean(),
+                "Score": score
+            })            
         elif score_type == "cagr":
             years = metric_history.shape[0]
-            cagr = ((metric_history[-1] / metric_history[0]) ** (1/years)) - 1
+            cagr = ((metric_history.iloc[-1] / metric_history.iloc[0]) ** (1/years)) - 1
             formula = f"cagr {OPERATOR[parms["operator"]]} {parms["value"]}"
-            score = eval(formula).astype(int) * parms["score"] * parms["weight"]
-            scores[score_type] = score
+            score = int(eval(formula)) * parms["score"] * parms["weight"]
+            scores.append({
+                "Metric": metric,
+                "Type": score_type,
+                "Value": cagr,
+                "Score": score
+            })
         else:
             scores[score_type] = 0
 
-    return scores
+    return pd.DataFrame(scores)
 
 def get_score_table(data: dict, score_parameters: dict):
     """
@@ -81,9 +103,8 @@ def get_score_table(data: dict, score_parameters: dict):
     DataFrame: The score table of the model.
     """
     score_table = pd.DataFrame()
-    score_dict = {}
     for metric in score_parameters.keys():
         score = calculate_metric_score(metric, score_parameters[metric], data)
-        score_dict[metric] = pd.DataFrame({"Metric": [metric], "Score": [score]})
+        score_table = pd.concat([score_table, score], ignore_index=True)
 
-    return score_dict
+    return score_table
