@@ -1,0 +1,415 @@
+{
+    "revenue_growth": {
+        "name": "Revenue Growth",
+        "description": "The percentage increase in revenue from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Total Revenue'].pct_change(periods=-1) * 100"
+    },
+    "operating_income_growth": {
+        "name": "Operating Income Growth",
+        "description": "The percentage increase in operating income from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Operating Income'].pct_change(periods=-1) * 100"
+    },
+    "net_income_growth": {
+        "name": "Net Income Growth",
+        "description": "The percentage increase in net income from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Net Income'].pct_change(periods=-1) * 100"
+    },
+    "eps_growth": {
+        "name": "EPS Growth",
+        "description": "The percentage increase in earnings per share from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Basic EPS'].pct_change(periods=-1) * 100"
+    },
+    "dividend_growth": {
+        "name": "Dividend Growth",
+        "description": "The percentage increase in dividends from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Dividends Paid'].pct_change(periods=-1) * 100"
+    },
+    "roe": {
+        "name": "Return on Equity (ROE)",
+        "description": "The net income as a percentage of shareholder equity.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Net Income'] / balance['Stockholders Equity'] * 100"
+    },
+    "roa": {
+        "name": "Return on Assets (ROA)",
+        "description": "The net income as a percentage of total assets.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Net Income'] / balance['Total Assets'] * 100"
+    },
+    "fcf_margin": {
+        "name": "Free Cash Flow Margin",
+        "description": "The free cash flow as a percentage of revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "cashflow['Free Cash Flow'] / income['Total Revenue'] * 100"
+    },
+    "debt_equity_ratio": {
+        "name": "Debt to Equity Ratio",
+        "description": "The total debt as a percentage of shareholder equity.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "balance['Total Debt'] / balance['Total Equity']"
+    },
+    "current_ratio": {
+        "name": "Current Ratio",
+        "description": "The ratio of current assets to current liabilities.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "balance['Total Current Assets'] / balance['Total Current Liabilities']"
+    },
+    "interest_coverage": {
+        "name": "Interest Coverage",
+        "description": "The ratio of operating income to interest expenses.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "income['Operating Income'] / income['Interest Expense']"
+    },
+    "payout_ratio": {
+        "name": "Payout Ratio",
+        "description": "The percentage of earnings paid out as dividends.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Dividends Paid'] / income['Net Income'] * 100"
+    },
+    "price_to_sales": {
+        "name": "Price to Sales Ratio",
+        "description": "The ratio of market capitalization to total revenue.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "market_cap / income['Total Revenue']"
+    },
+    "price_to_earnings": {
+        "name": "Price to Earnings Ratio",
+        "description": "The ratio of market capitalization to net income.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "market_cap / income['Net Income']"
+    },
+    "price_to_book": {
+        "name": "Price to Book Ratio",
+        "description": "The ratio of market capitalization to shareholder equity.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "market_cap / balance['Total Equity']"
+    },
+    "ev_to_ebitda": {
+        "name": "EV to EBITDA Ratio",
+        "description": "The ratio of enterprise value to EBITDA.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "enterprise_value / income['EBITDA']"
+    },
+    "ev_to_sales": {
+        "name": "EV to Sales Ratio",
+        "description": "The ratio of enterprise value to total revenue.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "enterprise_value / income['Total Revenue']"
+    },
+    "ev_to_fcf": {
+        "name": "EV to FCF Ratio",
+        "description": "The ratio of enterprise value to free cash flow.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "enterprise_value / cashflow['Free Cash Flow']"
+    },
+    "market_cap": {
+        "name": "Market Capitalization",
+        "description": "The total market value of a company's outstanding shares.",
+        "unit": "B",
+        "format": "{:.1f}B",
+        "formula": "market_cap"
+    },
+    "enterprise_value": {
+        "name": "Enterprise Value",
+        "description": "The total value of a company's outstanding shares and debt.",
+        "unit": "B",
+        "format": "{:.1f}B",
+        "formula": "market_cap + balance['Total Debt'] - balance['Total Cash']"
+    },
+    "roic": {
+        "name": "Return on Invested Capital (ROIC)",
+        "description": "The net operating profit after tax as a percentage of invested capital.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "(income['EBIT']*(1 - income['Tax Rate For Calcs'])) / (balance['Total Assets'] - balance['Current Liabilities'] + balance['Current Debt'] + balance['Cash Financial']) * 100"
+    },
+    "gross_margin": {
+        "name": "Gross Margin",
+        "description": "The gross profit as a percentage of revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Gross Profit'] / income['Total Revenue'] * 100"
+    },
+    "operating_margin": {
+        "name": "Operating Margin",
+        "description": "The operating income as a percentage of revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Operating Income'] / income['Total Revenue'] * 100"
+    },
+    "net_margin": {
+        "name": "Net Margin",
+        "description": "The net income as a percentage of revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Net Income'] / income['Total Revenue'] * 100"
+    },
+    "ebitda_margin": {
+        "name": "EBITDA Margin",
+        "description": "The EBITDA as a percentage of revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['EBITDA'] / income['Total Revenue'] * 100"
+    },
+    "ebit_margin": {
+        "name": "EBIT Margin",
+        "description": "The EBIT as a percentage of revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['EBIT'] / income['Total Revenue'] * 100"
+    },
+    "ebt_margin": {
+        "name": "EBT Margin",
+        "description": "The EBT as a percentage of revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['EBT'] / income['Total Revenue'] * 100"
+    },
+    "tax_rate": {
+        "name": "Tax Rate",
+        "description": "The percentage of income paid in taxes.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Income Tax Expense'] / income['EBT'] * 100"
+    },
+    "inventory_turnover": {
+        "name": "Inventory Turnover",
+        "description": "The number of times inventory is sold and replaced in a year.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "income['Cost of Goods Sold'] / balance['Inventory']"
+    },
+    "receivables_turnover": {
+        "name": "Receivables Turnover",
+        "description": "The number of times receivables are collected in a year.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "income['Total Revenue'] / balance['Accounts Receivable']"
+    },
+    "payables_turnover": {
+        "name": "Payables Turnover",
+        "description": "The number of times payables are paid in a year.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "income['Cost of Goods Sold'] / balance['Accounts Payable']"
+    },
+    "asset_turnover": {
+        "name": "Asset Turnover",
+        "description": "The ratio of revenue to total assets.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "income['Total Revenue'] / balance['Total Assets']"
+    },
+    "financial_leverage": {
+        "name": "Financial Leverage",
+        "description": "The ratio of total assets to shareholder equity.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "balance['Total Assets'] / balance['Total Equity']"
+    },
+    "operating_cycle": {
+        "name": "Operating Cycle",
+        "description": "The number of days it takes to turn inventory into cash.",
+        "unit": "days",
+        "format": "{:.0f} days",
+        "formula": "365 / (income['Cost of Goods Sold'] / balance['Inventory'])"
+    },
+    "cash_conversion_cycle": {
+        "name": "Cash Conversion Cycle",
+        "description": "The number of days it takes to turn inventory and receivables into cash.",
+        "unit": "days",
+        "format": "{:.0f} days",
+        "formula": "365 / ((income['Cost of Goods Sold'] / balance['Inventory']) + (income['Total Revenue'] / balance['Accounts Receivable']))"
+    },
+    "days_sales_outstanding": {
+        "name": "Days Sales Outstanding",
+        "description": "The number of days it takes to collect receivables.",
+        "unit": "days",
+        "format": "{:.0f} days",
+        "formula": "365 / (income['Total Revenue'] / balance['Accounts Receivable'])"
+    },
+    "days_inventory": {
+        "name": "Days Inventory",
+        "description": "The number of days it takes to sell inventory.",
+        "unit": "days",
+        "format": "{:.0f} days",
+        "formula": "365 / (income['Cost of Goods Sold'] / balance['Inventory'])"
+    },
+    "days_payable": {
+        "name": "Days Payable",
+        "description": "The number of days it takes to pay payables.",
+        "unit": "days",
+        "format": "{:.0f} days",
+        "formula": "365 / (income['Cost of Goods Sold'] / balance['Accounts Payable'])"
+    },
+    "working_capital": {
+        "name": "Working Capital",
+        "description": "The difference between current assets and current liabilities.",
+        "unit": "B",
+        "format": "{:.1f}B",
+        "formula": "balance['Total Current Assets'] - balance['Total Current Liabilities']"
+    },
+    "working_capital_ratio": {
+        "name": "Working Capital Ratio",
+        "description": "The ratio of current assets to current liabilities.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "balance['Total Current Assets'] / balance['Total Current Liabilities']"
+    },
+    "cash_ratio": {
+        "name": "Cash Ratio",
+        "description": "The ratio of cash to current liabilities.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "balance['Cash and Cash Equivalents'] / balance['Total Current Liabilities']"
+    },
+    "quick_ratio": {
+        "name": "Quick Ratio",
+        "description": "The ratio of liquid assets to current liabilities.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "(balance['Total Current Assets'] - balance['Inventory']) / balance['Total Current Liabilities']"
+    },
+    "cashflow_conversion": {
+        "name": "Cash Flow Conversion",
+        "description": "The percentage of net income converted to free cash flow.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "cashflow['Free Cash Flow'] / income['Net Income'] * 100"
+    },
+    "capex_ratio": {
+        "name": "Capex Ratio",
+        "description": "The ratio of capital expenditures to revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "cashflow['Capital Expenditure'] / income['Total Revenue'] * 100"
+    },
+    "dividend_yield": {
+        "name": "Dividend Yield",
+        "description": "The percentage of dividends paid to market capitalization.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Dividends Paid'] / market_cap * 100"
+    },
+    "dividend_payout_ratio": {
+        "name": "Dividend Payout Ratio",
+        "description": "The percentage of earnings paid out as dividends.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Dividends Paid'] / income['Net Income'] * 100"
+    },
+    "dividend_coverage_ratio": {
+        "name": "Dividend Coverage Ratio",
+        "description": "The ratio of net income to dividends paid.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "income['Net Income'] / income['Dividends Paid']"
+    },
+    "dividend_growth_rate": {
+        "name": "Dividend Growth Rate",
+        "description": "The percentage increase in dividends from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Dividends Paid'].pct_change(periods=-1) * 100"
+    },
+    "dividend_payout_growth_rate": {
+        "name": "Dividend Payout Growth Rate",
+        "description": "The percentage increase in dividend payout from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "(income['Dividends Paid'] / income['Net Income']).pct_change(periods=-1) * 100"
+    },
+    "dividend_yield_growth_rate": {
+        "name": "Dividend Yield Growth Rate",
+        "description": "The percentage increase in dividend yield from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "(income['Dividends Paid'] / market_cap).pct_change(periods=-1) * 100"
+    },
+    "net_debt_to_ebitda": {
+        "name": "Net Debt to EBITDA Ratio",
+        "description": "The ratio of net debt to EBITDA.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "(balance['Total Debt'] - balance['Cash Financial']) / income['EBITDA']"
+    },
+    "net_debt_to_sales": {
+        "name": "Net Debt to Sales Ratio",
+        "description": "The ratio of net debt to total revenue.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "(balance['Total Debt'] - balance['Total Cash']) / income['Total Revenue']"
+    },
+    "free_cashflow_to_net_debt": {
+        "name": "Free Cash Flow to Net Debt Ratio",
+        "description": "The ratio of free cash flow to net debt.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "cashflow['Free Cash Flow'] / (balance['Total Debt'] - balance['Cash Financial'])"
+    },
+    "free_cashflow_to_sales": {
+        "name": "Free Cash Flow to Sales Ratio",
+        "description": "The ratio of free cash flow to total revenue.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "cashflow['Free Cash Flow'] / income['Total Revenue']"
+    },
+    "free_cashflow_margin": {
+        "name": "Free Cash Flow Margin",
+        "description": "The free cash flow as a percentage of revenue.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "cashflow['Free Cash Flow'] / income['Total Revenue'] * 100"
+    },
+    "free_cashflow_growth": {
+        "name": "Free Cash Flow Growth",
+        "description": "The percentage increase in free cash flow from the previous year.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "cashflow['Free Cash Flow'].pct_change(periods=-1) * 100"
+    },
+    "free_cashflow_yield": {
+        "name": "Free Cash Flow Yield",
+        "description": "The percentage of free cash flow to market capitalization.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "cashflow['Free Cash Flow'] / market_cap * 100"
+    },
+    "free_cashflow_payout_ratio": {
+        "name": "Free Cash Flow Payout Ratio",
+        "description": "The percentage of free cash flow paid out as dividends.",
+        "unit": "%",
+        "format": "{:.1f}%",
+        "formula": "income['Dividends Paid'] / cashflow['Free Cash Flow'] * 100"
+    },
+    "free_cashflow_dividend_coverage": {
+        "name": "Free Cash Flow Dividend Coverage",
+        "description": "The ratio of free cash flow to dividends paid.",
+        "unit": "",
+        "format": "{:.1f}",
+        "formula": "cashflow['Free Cash Flow'] / income['Dividends Paid']"
+    }
+}

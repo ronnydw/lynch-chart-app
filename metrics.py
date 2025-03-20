@@ -1,13 +1,15 @@
-METRICS = {
-    "revenue_growth": {
-        "name": "Revenue Growth",
-        "description": "The percentage increase in revenue from the previous year.",
-        "unit": "%",
-        "format": "{:.1f}%",
-        "formula": "income['Total Revenue'].pct_change(periods=-1) * 100",
-    },
-}
+# Description: This file contains the metric definitions and functions to fetch metric data.
+#
+# The METRICS dictionary contains the metric definitions, including the formula to calculate the metric.
+# The get_3y_metric function fetches the 3-year metric data from Yahoo Finance using the stock data.    
 
+import pandas as pd
+import streamlit as st
+import json
+
+# Load the METRICS dictionary from the JSON file
+with open('metrics.json', 'r') as f:
+    METRICS = json.load(f)
 
 def get_3y_metric(stock_data: dict, metric: str):
     """
