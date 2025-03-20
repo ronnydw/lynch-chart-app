@@ -37,7 +37,7 @@ def get_3y_metric(stock_data: dict, metric: str):
     # get metric data
     try:
         metric_data = eval(metric_def['formula'])
-        return metric_data
+        return metric_data.dropna()
     except Exception as e:
         st.error(f"Error fetching metric data for {metric}: {e}")
         return pd.DataFrame()

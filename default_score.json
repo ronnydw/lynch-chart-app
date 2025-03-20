@@ -1,0 +1,50 @@
+{
+    "revenue_growth":{
+        "operator": "greater_than",
+        "value": 5,
+        "weight": 1,
+        "description": "Revenue growth is greater than 5%",
+        "score": 1,
+        "type": ["yearly", "average", "cagr"]
+    },
+    "operating_income_growth":{
+        "operator": "greater_than",
+        "value": 7,
+        "weight": 1,
+        "description": "Operating income growth is greater than 7%",
+        "score": 1,
+        "type": ["yearly", "average", "cagr"]
+    },
+    "roic":{
+        "operator": "greater_than",
+        "value": 15,
+        "weight": 1,
+        "description": "ROIC is greater than 15%",
+        "score": 1,
+        "type": ["yearly", "average"]
+    },
+    "cashflow_conversion":{
+        "operator": "greater_than",
+        "value": 80,
+        "weight": 1,
+        "description": "Free cashflow to net income is greater than 80%",
+        "score": 1,
+        "type": ["yearly", "average"]
+    },
+    "net_debt_to_ebitda":{
+        "operator": "less_than",
+        "value": 3,
+        "weight": 1,
+        "description": "Net debt to ebitda is less than 50%",
+        "score": 1,
+        "type": ["yearly", "average"]
+    },
+    "debt_equity_ratio":{
+        "operator": "less_than",
+        "value": 80,
+        "weight": 1,
+        "description": "Debt to equity is less than 80%",
+        "score": 1,
+        "type": ["yearly", "average"]
+    }
+}

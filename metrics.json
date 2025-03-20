@@ -58,9 +58,9 @@
     "debt_equity_ratio": {
         "name": "Debt to Equity Ratio",
         "description": "The total debt as a percentage of shareholder equity.",
-        "unit": "",
-        "format": "{:.1f}",
-        "formula": "balance['Total Debt'] / balance['Total Equity']"
+        "unit": "%",
+        "format": "{:.0f}",
+        "formula": "balance['Total Debt'] / balance['Stockholders Equity'] * 100"
     },
     "current_ratio": {
         "name": "Current Ratio",
@@ -102,7 +102,7 @@
         "description": "The ratio of market capitalization to shareholder equity.",
         "unit": "",
         "format": "{:.1f}",
-        "formula": "market_cap / balance['Total Equity']"
+        "formula": "market_cap / balance['Stockholders Equity']"
     },
     "ev_to_ebitda": {
         "name": "EV to EBITDA Ratio",
@@ -228,7 +228,7 @@
         "description": "The ratio of total assets to shareholder equity.",
         "unit": "",
         "format": "{:.1f}",
-        "formula": "balance['Total Assets'] / balance['Total Equity']"
+        "formula": "balance['Total Assets'] / balance['Stockholders Equity']"
     },
     "operating_cycle": {
         "name": "Operating Cycle",
