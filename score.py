@@ -115,18 +115,22 @@ def get_score_table(data: dict, score_parameters: dict):
         print(f"Missing data for metrics: {missing_data}")
     return score_table, missing_data
 
-def formatted_value(mv_pair: pd.DataFrame):
+def formatted_value(mvs: pd.DataFrame):
     """
     Formats the value of a metric for display in the Streamlit app.
 
     Parameters:
-    mv_pair (pd.DataFrame): A DataFrame containing the metric and value.
+    mvs (pd.DataFrame): A DataFrame containing the metric, value, and score.
 
     Returns:
-    result: pd.Series containing the formatted value of the metric.
+    result: pd.Series containing the formatted value of the metric, including a red cross mark for a score of 0 and a green check mark for a score of 1.
     """
-    mv_pair["Format"] = mv_pair["Metric"].apply(lambda x: metrics.METRICS[x]["format"])
-    return mv_pair.apply(lambda row: row['Format'].format(row['Value']), axis=1)
+    checkbox = {
+        0: "❌",  # Red cross mark
+        1: "✅"   # Green check mark
+    }   
+    mvs["Format"] = mvs["Metric"].apply(lambda x: metrics.METRICS[x]["format"])
+    return mvs.apply(lambda row: row['Format'].format(row['Value']) + f" {checkbox[row['Score']]}", axis=1)
 
 def formatted_report(score_table: pd.DataFrame, missing_data: list):
     """
@@ -143,7 +147,7 @@ def formatted_report(score_table: pd.DataFrame, missing_data: list):
         return pd.DataFrame()
     filtered_table = score_table[score_table['Score']==0].copy()
     filtered_table['Description'] = filtered_table['Metric'].apply(lambda x: metrics.METRICS[x]['name'])
-    filtered_table['Formatted_value'] = formatted_value(filtered_table[['Metric','Value']])
+    filtered_table['Formatted_value'] = formatted_value(filtered_table[['Metric','Value', 'Score']])
 
     result = filtered_table[['Description', 'Type', 'Formatted_value']]
     result.columns = ['Metric', 'Type', 'Value']
