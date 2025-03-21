@@ -59,7 +59,7 @@
         "name": "Debt to Equity Ratio",
         "description": "The total debt as a percentage of shareholder equity.",
         "unit": "%",
-        "format": "{:.0f}",
+        "format": "{:.0f}%",
         "formula": "balance['Total Debt'] / balance['Stockholders Equity'] * 100"
     },
     "current_ratio": {
@@ -228,7 +228,7 @@
         "description": "The ratio of total assets to shareholder equity.",
         "unit": "",
         "format": "{:.1f}",
-        "formula": "balance['Total Assets'] / balance['Stockholders Equity']"
+        "formula": "balance['Total Assets'] / balance['Shareholders Equity']"
     },
     "operating_cycle": {
         "name": "Operating Cycle",
