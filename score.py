@@ -36,7 +36,7 @@ def calculate_metric_score(metric: str, parms: dict, data: dict):
     metric_history = metrics.get_3y_metric(data, metric)
 
     if metric_history.empty:
-        return {}
+        return pd.DataFrame()
 
     fiscal_year_end = MONTH[metric_history.index[0].month]
     years = metric_history.index.year
@@ -76,7 +76,7 @@ def calculate_metric_score(metric: str, parms: dict, data: dict):
             })            
         elif score_type == "cagr":
             years = metric_history.shape[0]
-            cagr = ((metric_history.iloc[-1] / metric_history.iloc[0]) ** (1/years)) - 1
+            cagr = ((metric_history/100+1).prod() ** (1/years) - 1)*100
             formula = f"cagr {OPERATOR[parms["operator"]]} {parms["value"]}"
             score = int(eval(formula)) * parms["score"] * parms["weight"]
             scores.append({
@@ -88,7 +88,8 @@ def calculate_metric_score(metric: str, parms: dict, data: dict):
         else:
             scores[score_type] = 0
 
-    return pd.DataFrame(scores)
+    results = pd.DataFrame(scores)
+    return results
 
 def get_score_table(data: dict, score_parameters: dict):
     """
@@ -103,8 +104,47 @@ def get_score_table(data: dict, score_parameters: dict):
     DataFrame: The score table of the model.
     """
     score_table = pd.DataFrame()
+    missing_data = []
     for metric in score_parameters.keys():
         score = calculate_metric_score(metric, score_parameters[metric], data)
-        score_table = pd.concat([score_table, score], ignore_index=True)
+        if score.empty:
+            missing_data.append(metric)
+        else:
+            score_table = pd.concat([score_table, score], ignore_index=True)
+    if missing_data:
+        print(f"Missing data for metrics: {missing_data}")
+    return score_table, missing_data
 
-    return score_table
+def formatted_value(mv_pair: pd.DataFrame):
+    """
+    Formats the value of a metric for display in the Streamlit app.
+
+    Parameters:
+    mv_pair (pd.DataFrame): A DataFrame containing the metric and value.
+
+    Returns:
+    result: pd.Series containing the formatted value of the metric.
+    """
+    mv_pair["Format"] = mv_pair["Metric"].apply(lambda x: metrics.METRICS[x]["format"])
+    return mv_pair.apply(lambda row: row['Format'].format(row['Value']), axis=1)
+
+def formatted_report(score_table: pd.DataFrame, missing_data: list):
+    """
+    Formats the score table for display in the Streamlit app.
+
+    Parameters:
+    score_table (pd.DataFrame): A DataFrame containing the scores of the model.
+    missing_data (list): A list of metrics with missing data
+
+    Returns:
+    pd.DataFrame: A formatted DataFrame for display in the Streamlit app.
+    """
+    if score_table.empty:
+        return pd.DataFrame()
+    filtered_table = score_table[score_table['Score']==0].copy()
+    filtered_table['Description'] = filtered_table['Metric'].apply(lambda x: metrics.METRICS[x]['name'])
+    filtered_table['Formatted_value'] = formatted_value(filtered_table[['Metric','Value']])
+
+    result = filtered_table[['Description', 'Type', 'Formatted_value']]
+    result.columns = ['Metric', 'Type', 'Value']
+    return result
