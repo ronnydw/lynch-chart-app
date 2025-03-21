@@ -126,11 +126,11 @@ def formatted_value(mvs: pd.DataFrame):
     result: pd.Series containing the formatted value of the metric, including a red cross mark for a score of 0 and a green check mark for a score of 1.
     """
     checkbox = {
-        0: "❌",  # Red cross mark
-        1: "✅"   # Green check mark
+        False: "❌",  # Red cross mark
+        True: "✅"   # Green check mark
     }   
     mvs["Format"] = mvs["Metric"].apply(lambda x: metrics.METRICS[x]["format"])
-    return mvs.apply(lambda row: row['Format'].format(row['Value']) + f" {checkbox[row['Score']]}", axis=1)
+    return mvs.apply(lambda row: row['Format'].format(row['Value']) + f" {checkbox[row['Score']>0]}", axis=1)
 
 def formatted_report(score_table: pd.DataFrame, missing_data: list):
     """
@@ -145,10 +145,13 @@ def formatted_report(score_table: pd.DataFrame, missing_data: list):
     """
     if score_table.empty:
         return pd.DataFrame()
-    filtered_table = score_table[score_table['Score']==0].copy()
+    filtered_table = score_table.copy()    
+    # filtered_table = score_table[score_table['Score']==0].copy()
     filtered_table['Description'] = filtered_table['Metric'].apply(lambda x: metrics.METRICS[x]['name'])
     filtered_table['Formatted_value'] = formatted_value(filtered_table[['Metric','Value', 'Score']])
 
     result = filtered_table[['Description', 'Type', 'Formatted_value']]
     result.columns = ['Metric', 'Type', 'Value']
+    result = result.pivot(index='Metric', columns='Type', values='Value')
+    result = result.fillna("")
     return result
